@@ -31,5 +31,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     provided "com.android.support:appcompat-v7:$SLVersion"
-    implementation project(':ImageBase')
+    compile 'com.squareup.picasso:picasso:2.71828'
+    compile project(':ImageBase')
 }

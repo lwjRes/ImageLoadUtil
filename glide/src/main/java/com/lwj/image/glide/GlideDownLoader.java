@@ -10,41 +10,34 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.lwj.image.download.DownLoadListener;
+import com.lwj.image.helper.IImageDownLoaderHelper;
 
 /**
  * Created:2018/7/2
- * User：liuwenjie
- * Email:liuwnejie180423@credithc.com
+ * User：lwjfork
+ * Email:lwjfork@gmail.com
  * Des:
  * ====================
  */
 
-abstract class GlideDownLoader {
-    public GlideDownLoader() {
-        throw new AbstractMethodError("GlideUrlConverter can't init!");
-    }
+public class GlideDownLoader implements IImageDownLoaderHelper {
 
-    static void downLoad(Context context, String url, DownLoadListener listener) {
+
+    @Override
+    public void downLoad(Context context, String url, DownLoadListener listener) {
         Glide.with(context).asBitmap().load(url).into(getTarget(listener));
     }
 
 
-    static void downLoad(Fragment fragment, String url, DownLoadListener listener) {
+    @Override
+    public void downLoad(Fragment fragment, String url, DownLoadListener listener) {
         Glide.with(fragment).asBitmap().load(url).into(getTarget(listener));
     }
 
 
-    static void downLoad(Context context, String url, DownLoadListener listener, int width, int height) {
-        Glide.with(context).asBitmap().load(url).into(getTarget(listener));
-    }
 
 
-    static void downLoad(Fragment fragment, String url, DownLoadListener listener, int width, int height) {
-        Glide.with(fragment).asBitmap().load(url).into(getTarget(listener));
-    }
-
-
-    private static SimpleTarget<Bitmap> getTarget(DownLoadListener listener) {
+    private SimpleTarget<Bitmap> getTarget(DownLoadListener listener) {
         return new SimpleTarget<Bitmap>() {
 
             @Override

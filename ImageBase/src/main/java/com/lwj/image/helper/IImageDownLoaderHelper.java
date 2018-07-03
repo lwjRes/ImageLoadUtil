@@ -19,7 +19,7 @@ public interface IImageDownLoaderHelper {
      * @param url      url 只用网络图片支持下载
      * @param listener 下载监听
      */
-    void downLoad(Context context,String url, DownLoadListener listener);
+    void downLoad(Context context, String url, DownLoadListener listener);
 
     /**
      * 下载图片
@@ -29,24 +29,5 @@ public interface IImageDownLoaderHelper {
      */
     void downLoad(Fragment fragment, String url, DownLoadListener listener);
 
-    /**
-     * 下载图片
-     *
-     * @param url      url 只用网络图片支持下载
-     * @param listener 下载监听
-     * @param width    下载图片的宽度
-     * @param height   下载图片的高度
-     */
-    void downLoad(Context context,String url, DownLoadListener listener, int width, int height);
-
-    /**
-     * 下载图片
-     *
-     * @param url      url 只用网络图片支持下载
-     * @param listener 下载监听
-     * @param width    下载图片的宽度
-     * @param height   下载图片的高度
-     */
-    void downLoad(Fragment fragment,String url, DownLoadListener listener, int width, int height);
 
 }

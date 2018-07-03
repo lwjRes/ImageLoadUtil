@@ -1,39 +1,46 @@
 package com.lwj.image.fresco;
 
+import com.lwj.image.download.ILoadImageUrlConverter;
+
 /**
  * Created:2018/7/2
- * User：liuwenjie
- * Email:liuwnejie180423@credithc.com
+ * User：lwjfork
+ * Email:lwjfork@gmail.com
  * Des:
  * ====================
  */
 
- abstract class FrescoUrlConverter {
+public class FrescoUrlConverter implements ILoadImageUrlConverter {
 
-     FrescoUrlConverter() {
-        throw new AbstractMethodError("FrescoUrlConverter can't init!");
+    public FrescoUrlConverter() {
+
     }
 
-     static String convertNetUrl(String url) {
+    @Override
+    public String convertNetUrl(String url) {
         return url;
     }
 
-     static String convertFile(String filePath) {
+    @Override
+    public String convertFile(String filePath) {
         return filePath;
     }
 
 
-     static String convertContent(String contentPath) {
+    @Override
+    public String convertContent(String contentPath) {
         return null;
     }
 
 
-     static String convertAssets(String assets) {
+    @Override
+    public String convertAssets(String assets) {
         return "file:///android_asset/" + assets;
     }
 
 
-     static String convertDrawable(String drawable) {
+    @Override
+    public String convertDrawable(String drawable) {
         return drawable;
     }
 }

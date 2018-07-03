@@ -8,10 +8,11 @@ import android.widget.ImageView;
 import com.lwj.image.R;
 import com.lwj.image.download.DownLoadListener;
 import com.lwj.image.download.ILoadImageUrlConverter;
+import com.lwj.image.helper.BaseImageLoaderManager;
 import com.lwj.image.helper.IImageDownLoaderHelper;
 import com.lwj.image.helper.IImageLoaderHelper;
 import com.lwj.image.helper.IImageLoaderManagerHelper;
-import com.lwj.image.loader.IImageLoader;
+import com.lwj.image.loader.AImageLoader;
 
 
 /**
@@ -48,6 +49,7 @@ public class ImageLoaderUtil implements IImageLoaderHelper, IImageDownLoaderHelp
     private int iterations;
     private int blurRadius;
     private boolean isBlur = false;
+    private boolean skipCache = false;// 是否忽略缓存--适用于图片链接一致但是图片不一致情况
 
     private Context context;
     private Fragment fragment;
@@ -60,20 +62,32 @@ public class ImageLoaderUtil implements IImageLoaderHelper, IImageDownLoaderHelp
     private int type = ILoadImageUrlConverter.NET;
 
 
-    private static IImageLoader imageLoader;
+    private static AImageLoader imageLoader;
+    private static IImageDownLoaderHelper downLoaderHelper;
+    private static BaseImageLoaderManager managerHelper;
+
+
+    private static ImageLoaderUtil s = null;
 
     public static ImageLoaderUtil get() {
-        if (imageLoader == null) {
-            throw new NullPointerException("imageLoader 必须初始化，即通过调用 setLoader 方法初始化！");
+        if (s == null) {
+            s = new ImageLoaderUtil();
         }
-        return new ImageLoaderUtil();
+        return s;
     }
 
 
-    public static void setLoader(IImageLoader imageLoader) {
+    public static void setLoader(AImageLoader imageLoader) {
         ImageLoaderUtil.imageLoader = imageLoader;
     }
 
+    public static void setDownLoaderHelper(IImageDownLoaderHelper downLoaderHelper) {
+        ImageLoaderUtil.downLoaderHelper = downLoaderHelper;
+    }
+
+    public static void setManagerHelper(BaseImageLoaderManager managerHelper) {
+        ImageLoaderUtil.managerHelper = managerHelper;
+    }
 
     private ImageLoaderUtil() {
     }
@@ -110,15 +124,15 @@ public class ImageLoaderUtil implements IImageLoaderHelper, IImageDownLoaderHelp
         }
         if (isBorder) { // 带边框
             if (context != null) {
-                imageLoader.loadImageCircleWithBorder(context, type, imageView, url, borderWidth, borderColor, defaultRes, errorRes, resize, isAnim, iterations, blurRadius);
+                checkImageLoader().loadImageCircleWithBorder(context, type, imageView, url, borderWidth, borderColor, defaultRes, errorRes, resize, isAnim, iterations, blurRadius);
             } else if (fragment != null) {
-                imageLoader.loadImageCircleWithBorder(fragment, type, imageView, url, borderWidth, borderColor, defaultRes, errorRes, resize, isAnim, iterations, blurRadius);
+                checkImageLoader().loadImageCircleWithBorder(fragment, type, imageView, url, borderWidth, borderColor, defaultRes, errorRes, resize, isAnim, iterations, blurRadius);
             }
         } else {  // 不带边框
             if (context != null) {
-                imageLoader.loadImageCircle(context, type, imageView, url, defaultRes, errorRes, resize, isAnim, iterations, blurRadius);
+                checkImageLoader().loadImageCircle(context, type, imageView, url, defaultRes, errorRes, resize, isAnim, iterations, blurRadius);
             } else if (fragment != null) {
-                imageLoader.loadImageCircle(fragment, type, imageView, url, defaultRes, errorRes, resize, isAnim, iterations, blurRadius);
+                checkImageLoader().loadImageCircle(fragment, type, imageView, url, defaultRes, errorRes, resize, isAnim, iterations, blurRadius);
             }
 
         }
@@ -137,20 +151,18 @@ public class ImageLoaderUtil implements IImageLoaderHelper, IImageDownLoaderHelp
         if (isBorder) {
 
             if (context != null) {
-                imageLoader.loadRoundImageWithBorder(context, type, imageView, url, defaultRes, errorRes, topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius, borderWidth, borderColor, resize, isAnim, iterations, blurRadius);
+                checkImageLoader().loadRoundImageWithBorder(context, type, imageView, url, defaultRes, errorRes, topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius, borderWidth, borderColor, resize, isAnim, iterations, blurRadius);
             } else if (fragment != null) {
-                imageLoader.loadRoundImageWithBorder(fragment, type, imageView, url, defaultRes, errorRes, topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius, borderWidth, borderColor, resize, isAnim, iterations, blurRadius);
+                checkImageLoader().loadRoundImageWithBorder(fragment, type, imageView, url, defaultRes, errorRes, topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius, borderWidth, borderColor, resize, isAnim, iterations, blurRadius);
             }
         } else {
 
             if (context != null) {
-                imageLoader.loadRoundImage(context, type, imageView, url, defaultRes, errorRes, topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius, resize, isAnim, iterations, blurRadius);
+                checkImageLoader().loadRoundImage(context, type, imageView, url, defaultRes, errorRes, topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius, resize, isAnim, iterations, blurRadius);
             } else if (fragment != null) {
-                imageLoader.loadRoundImage(fragment, type, imageView, url, defaultRes, errorRes, topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius, resize, isAnim, iterations, blurRadius);
+                checkImageLoader().loadRoundImage(fragment, type, imageView, url, defaultRes, errorRes, topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius, resize, isAnim, iterations, blurRadius);
             }
         }
-
-
     }
 
     /**
@@ -164,9 +176,9 @@ public class ImageLoaderUtil implements IImageLoaderHelper, IImageDownLoaderHelp
             blurRadius = 0;
         }
         if (context != null) {
-            imageLoader.loadGifImage(context, type, imageView, url);
+            checkImageLoader().loadGifImage(context, type, imageView, url);
         } else if (fragment != null) {
-            imageLoader.loadGifImage(fragment, type, imageView, url);
+            checkImageLoader().loadGifImage(fragment, type, imageView, url);
         }
     }
 
@@ -185,15 +197,15 @@ public class ImageLoaderUtil implements IImageLoaderHelper, IImageDownLoaderHelp
         if (isBorder) {
 
             if (context != null) {
-                imageLoader.loadRoundImageWithBorder(context, type, imageView, url, defaultRes, errorRes, topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius, borderWidth, borderColor, resize, isAnim, iterations, blurRadius);
+                checkImageLoader().loadImageWithBorder(context, type, imageView, url, defaultRes, errorRes, borderWidth, borderColor, resize, isAnim, iterations, blurRadius);
             } else if (fragment != null) {
-                imageLoader.loadRoundImageWithBorder(fragment, type, imageView, url, defaultRes, errorRes, topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius, borderWidth, borderColor, resize, isAnim, iterations, blurRadius);
+                checkImageLoader().loadImageWithBorder(fragment, type, imageView, url, defaultRes, errorRes, borderWidth, borderColor, resize, isAnim, iterations, blurRadius);
             }
         } else {
             if (context != null) {
-                imageLoader.loadImage(context, type, imageView, url, defaultRes, errorRes, resize, isAnim, iterations, blurRadius);
+                checkImageLoader().loadImage(context, type, imageView, url, defaultRes, errorRes, resize, isAnim, iterations, blurRadius);
             } else if (fragment != null) {
-                imageLoader.loadImage(fragment, type, imageView, url, defaultRes, errorRes, resize, isAnim, iterations, blurRadius);
+                checkImageLoader().loadImage(fragment, type, imageView, url, defaultRes, errorRes, resize, isAnim, iterations, blurRadius);
             }
         }
 
@@ -293,78 +305,92 @@ public class ImageLoaderUtil implements IImageLoaderHelper, IImageDownLoaderHelp
 
     @Override
     public long getDiskCacheSize(Context context) {
-        return imageLoader.getDiskCacheSize(context);
+        return checkManagerHelper().getDiskCacheSize(context);
     }
 
     @Override
     public void clearMemoryCache(Context context) {
-        imageLoader.clearMemoryCache(context);
+        checkManagerHelper().clearMemoryCache(context);
     }
 
 
     @Override
     public void clearDiskCache(Context context) {
-        imageLoader.clearDiskCache(context);
+        checkManagerHelper().clearDiskCache(context);
     }
 
     @Override
     public void clearCache(Context context) {
-        imageLoader.clearCache(context);
+        checkManagerHelper().clearCache(context);
     }
 
     @Override
     public String getCacheDir(Context context) {
-        return imageLoader.getCacheDir(context);
+        return checkManagerHelper().getCacheDir(context);
     }
 
     @Override
     public void pause(Context context) {
-        imageLoader.pause(context);
+        checkManagerHelper().pause(context);
     }
 
 
     @Override
     public void resume(Context context) {
-        imageLoader.resume(context);
+        checkManagerHelper().resume(context);
     }
 
     @Override
     public void onTrimMemory(Context context, int level) {
-        imageLoader.onTrimMemory(context, level);
+        checkManagerHelper().onTrimMemory(context, level);
     }
 
     @Override
     public void onLowMemory(Context context) {
-        imageLoader.onLowMemory(context);
+        checkManagerHelper().onLowMemory(context);
     }
 
     @Override
     public boolean isMemoryCache(Context context, String url, int imageType) {
-        return imageLoader.isMemoryCache(context, url, imageType);
+        return checkManagerHelper().isMemoryCache(context, url, imageType);
     }
 
     @Override
     public boolean isDiskCache(Context context, String url, int imageType) {
-        return imageLoader.isDiskCache(context, url, imageType);
+        return checkManagerHelper().isDiskCache(context, url, imageType);
     }
 
     @Override
     public void downLoad(Context context, String url, DownLoadListener listener) {
-        imageLoader.downLoad(context, url, listener);
+        checkDownLoaderHelper().downLoad(context, url, listener);
     }
 
     @Override
     public void downLoad(Fragment fragment, String url, DownLoadListener listener) {
-        imageLoader.downLoad(fragment, url, listener);
+        checkDownLoaderHelper().downLoad(fragment, url, listener);
     }
 
-    @Override
-    public void downLoad(Context context, String url, DownLoadListener listener, int width, int height) {
-        imageLoader.downLoad(context, url, listener, width, height);
+
+    private IImageDownLoaderHelper checkDownLoaderHelper() {
+        return checkNotNull(downLoaderHelper, "downLoaderHelper 必须初始化，即通过调用 setDownLoaderHelper 方法初始化！");
+
     }
 
-    @Override
-    public void downLoad(Fragment fragment, String url, DownLoadListener listener, int width, int height) {
-        imageLoader.downLoad(fragment, url, listener, width, height);
+    private AImageLoader checkImageLoader() {
+        return checkNotNull(imageLoader, "imageLoader 必须初始化，即通过调用 setLoader 方法初始化！");
     }
+
+    private IImageLoaderManagerHelper checkManagerHelper() {
+        return checkNotNull(managerHelper, "managerHelper 必须初始化，即通过调用 setManagerHelper 方法初始化！");
+    }
+
+
+    private <T> T checkNotNull(T data, String msg) {
+        if (data == null) {
+            throw new NullPointerException(msg);
+        }
+        return data;
+    }
+
+
 }

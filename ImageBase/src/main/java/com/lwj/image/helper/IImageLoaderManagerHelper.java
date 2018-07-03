@@ -11,6 +11,7 @@ import android.content.Context;
 public interface IImageLoaderManagerHelper {
 
 
+
     //  获取硬盘缓存大小
     long getDiskCacheSize(Context context);
 
@@ -43,7 +44,6 @@ public interface IImageLoaderManagerHelper {
      *
      * @param url       url
      * @param imageType url 类型
-     *
      * @return true 在，false 不在
      */
     boolean isMemoryCache(Context context, String url, int imageType);
@@ -53,7 +53,6 @@ public interface IImageLoaderManagerHelper {
      *
      * @param url
      * @param imageType
-     *
      * @return true 在，false 不在
      */
     boolean isDiskCache(Context context, String url, int imageType);

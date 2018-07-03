@@ -4,38 +4,27 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import com.lwj.image.download.DownLoadListener;
+import com.lwj.image.helper.IImageDownLoaderHelper;
 
 /**
  * Created:2018/7/2
- * User：liuwenjie
- * Email:liuwnejie180423@credithc.com
+ * User：lwjfork
+ * Email:lwjfork@gmail.com
  * Des:
  * ====================
  */
 
-abstract class FrescoDownLoader {
-    public FrescoDownLoader() {
-        throw new AbstractMethodError("FrescoUrlConverter can't init!");
-    }
+public class FrescoDownLoader implements IImageDownLoaderHelper {
 
-    static void downLoad(Context context, String url, DownLoadListener listener) {
+    @Override
+    public void downLoad(Context context, String url, DownLoadListener listener) {
 
     }
 
-
-    static void downLoad(Fragment fragment, String url, DownLoadListener listener) {
-
-    }
-
-
-    static void downLoad(Context context, String url, DownLoadListener listener, int width, int height) {
+    @Override
+    public void downLoad(Fragment fragment, String url, DownLoadListener listener) {
 
     }
-
-
-    static void downLoad(Fragment fragment, String url, DownLoadListener listener, int width, int height) {
-
-    }
-
 
 }
+

@@ -3,38 +3,48 @@ package com.lwj.image.picasso;
 import android.content.Context;
 
 import com.lwj.image.download.ILoadImageUrlConverter.ImageType;
+import com.lwj.image.helper.BaseImageLoaderManager;
+import com.lwj.image.helper.IImageLoaderManagerHelper;
 
 
 /**
  * The type Picasso manger.
  */
-abstract class PicassoManger {
+public class PicassoManger extends BaseImageLoaderManager  {
 
-    public PicassoManger() {
-        throw new AbstractMethodError("PicassoManger can't init!");
+
+    public PicassoManger(Context context) {
+        super(context);
     }
 
-    public static final String TAG = "PicassoManger";
+    @Override
+    protected BaseImageLoaderManager config(Context context) {
+        return this;
+    }
 
-    static long getDiskCacheSize(Context context) {
+    @Override
+    public long getDiskCacheSize(Context context) {
 
 
         return 0;
     }
 
 
-    static void clearMemoryCache(Context context) {
+    @Override
+    public void clearMemoryCache(Context context) {
 
     }
 
 
-    static void clearDiskCache(Context context) {
+    @Override
+    public void clearDiskCache(Context context) {
 
 
     }
 
 
-    static void clearCache(Context context) {
+    @Override
+    public void clearCache(Context context) {
         clearMemoryCache(context);
         clearDiskCache(context);
     }
@@ -46,7 +56,8 @@ abstract class PicassoManger {
      * @param context the context
      * @return 磁盘缓存目录
      */
-    static String getCacheDir(Context context) {
+    @Override
+    public String getCacheDir(Context context) {
         return "";
     }
 
@@ -56,7 +67,8 @@ abstract class PicassoManger {
      *
      * @param context the context
      */
-    static void pause(Context context) {
+    @Override
+    public void pause(Context context) {
 
     }
 
@@ -66,17 +78,20 @@ abstract class PicassoManger {
      *
      * @param context the context
      */
-    static void resume(Context context) {
+    @Override
+    public void resume(Context context) {
 
     }
 
 
-    static void onTrimMemory(Context context, int level) {
+    @Override
+    public void onTrimMemory(Context context, int level) {
 
     }
 
 
-    static void onLowMemory(Context context) {
+    @Override
+    public void onLowMemory(Context context) {
 
     }
 
@@ -89,7 +104,8 @@ abstract class PicassoManger {
      * @param imageType url 类型
      * @return the boolean
      */
-    static boolean isMemoryCache(Context context, String url, @ImageType int imageType) {
+    @Override
+    public boolean isMemoryCache(Context context, String url, @ImageType int imageType) {
         return false;
     }
 
@@ -102,7 +118,8 @@ abstract class PicassoManger {
      * @param imageType the image type
      * @return the boolean
      */
-    static boolean isDiskCache(Context context, String url, @ImageType int imageType) {
+    @Override
+    public boolean isDiskCache(Context context, String url, @ImageType int imageType) {
         return false;
     }
 }

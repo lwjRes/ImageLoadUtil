@@ -4,28 +4,38 @@ import android.content.Context;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.util.Util;
+import com.lwj.image.helper.BaseImageLoaderManager;
 import com.lwj.image.util.LogUtil;
 import com.lwj.image.download.ILoadImageUrlConverter.ImageType;
 
 /**
  * The type Glide manger.
  */
-abstract class GlideManger {
+public class GlideManger extends BaseImageLoaderManager {
 
-    public GlideManger() {
-        throw new AbstractMethodError("GlideManger can't init!");
+
+    private final String TAG = "GlideManger";
+
+
+    public GlideManger(Context context) {
+        super(context);
     }
 
-    public static final String TAG = "GlideManger";
+    @Override
+    protected BaseImageLoaderManager config(Context context) {
+        return this;
+    }
 
-    static long getDiskCacheSize(Context context) {
+    @Override
+    public long getDiskCacheSize(Context context) {
 
 
         return 0;
     }
 
 
-    static void clearMemoryCache(Context context) {
+    @Override
+    public void clearMemoryCache(Context context) {
 
         if (Util.isOnMainThread()) {
             Glide.get(context).clearMemory();
@@ -35,7 +45,8 @@ abstract class GlideManger {
     }
 
 
-    static void clearDiskCache(Context context) {
+    @Override
+    public void clearDiskCache(Context context) {
         if (Util.isOnBackgroundThread()) {
             Glide.get(context).clearDiskCache();
         } else {
@@ -53,7 +64,8 @@ abstract class GlideManger {
     }
 
 
-    static void clearCache(Context context) {
+    @Override
+    public void clearCache(Context context) {
         clearMemoryCache(context);
         clearDiskCache(context);
     }
@@ -65,7 +77,8 @@ abstract class GlideManger {
      * @param context the context
      * @return 磁盘缓存目录
      */
-    static String getCacheDir(Context context) {
+    @Override
+    public String getCacheDir(Context context) {
         return "";
     }
 
@@ -75,7 +88,8 @@ abstract class GlideManger {
      *
      * @param context the context
      */
-    static void pause(Context context) {
+    @Override
+    public void pause(Context context) {
         Glide.with(context).pauseRequests();
     }
 
@@ -85,19 +99,22 @@ abstract class GlideManger {
      *
      * @param context the context
      */
-    static void resume(Context context) {
+    @Override
+    public void resume(Context context) {
         if (Glide.with(context).isPaused()) {
             Glide.with(context).resumeRequests();
         }
     }
 
 
-    static void onTrimMemory(Context context, int level) {
+    @Override
+    public void onTrimMemory(Context context, int level) {
         Glide.get(context).onTrimMemory(level);
     }
 
 
-    static void onLowMemory(Context context) {
+    @Override
+    public void onLowMemory(Context context) {
         Glide.get(context).onLowMemory();
     }
 
@@ -110,7 +127,8 @@ abstract class GlideManger {
      * @param imageType url 类型
      * @return the boolean
      */
-    static boolean isMemoryCache(Context context, String url, @ImageType int imageType) {
+    @Override
+    public boolean isMemoryCache(Context context, String url, @ImageType int imageType) {
         return false;
     }
 
@@ -123,7 +141,8 @@ abstract class GlideManger {
      * @param imageType the image type
      * @return the boolean
      */
-    static boolean isDiskCache(Context context, String url, @ImageType int imageType) {
+    @Override
+    public boolean isDiskCache(Context context, String url, @ImageType int imageType) {
         return false;
     }
 }
