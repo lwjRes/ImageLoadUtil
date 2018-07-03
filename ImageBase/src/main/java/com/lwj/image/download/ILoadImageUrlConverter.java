@@ -22,7 +22,9 @@ public interface ILoadImageUrlConverter {
     }
 
 
-    String convertNetUrl(String url);
+    default String convertNetUrl(String url) {
+        return url;
+    }
 
     String convertFile(String filePath);
 

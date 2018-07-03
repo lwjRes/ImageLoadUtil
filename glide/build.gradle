@@ -32,4 +32,8 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     provided "com.android.support:appcompat-v7:$SLVersion"
     implementation project(':ImageBase')
+    implementation("$rootProject.dependenciesRep.Glide:$rootProject.dependenciesVer.Glide") {
+        exclude group: "com.android.support"
+    }
+    annotationProcessor "$rootProject.dependenciesRep.GlideAnnotaition:$rootProject.dependenciesVer.GlideAnnotaition"
 }

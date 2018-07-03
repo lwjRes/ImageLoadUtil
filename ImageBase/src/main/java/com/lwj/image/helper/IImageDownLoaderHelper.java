@@ -1,5 +1,8 @@
 package com.lwj.image.helper;
 
+import android.content.Context;
+import android.support.v4.app.Fragment;
+
 import com.lwj.image.download.DownLoadListener;
 
 /**
@@ -16,7 +19,15 @@ public interface IImageDownLoaderHelper {
      * @param url      url 只用网络图片支持下载
      * @param listener 下载监听
      */
-    void downLoad(String url, DownLoadListener listener);
+    void downLoad(Context context,String url, DownLoadListener listener);
+
+    /**
+     * 下载图片
+     *
+     * @param url      url 只用网络图片支持下载
+     * @param listener 下载监听
+     */
+    void downLoad(Fragment fragment, String url, DownLoadListener listener);
 
     /**
      * 下载图片
@@ -26,6 +37,16 @@ public interface IImageDownLoaderHelper {
      * @param width    下载图片的宽度
      * @param height   下载图片的高度
      */
-    void downLoad(String url, DownLoadListener listener, int width, int height);
+    void downLoad(Context context,String url, DownLoadListener listener, int width, int height);
+
+    /**
+     * 下载图片
+     *
+     * @param url      url 只用网络图片支持下载
+     * @param listener 下载监听
+     * @param width    下载图片的宽度
+     * @param height   下载图片的高度
+     */
+    void downLoad(Fragment fragment,String url, DownLoadListener listener, int width, int height);
 
 }

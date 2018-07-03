@@ -291,10 +291,6 @@ public class ImageLoaderUtil implements IImageLoaderHelper, IImageDownLoaderHelp
         imageLoader.clearMemoryCache(context);
     }
 
-    @Override
-    public void downLoad(String url, DownLoadListener listener) {
-        imageLoader.downLoad(url, listener);
-    }
 
     @Override
     public void clearDiskCache(Context context) {
@@ -316,10 +312,6 @@ public class ImageLoaderUtil implements IImageLoaderHelper, IImageDownLoaderHelp
         imageLoader.pause(context);
     }
 
-    @Override
-    public void downLoad(String url, DownLoadListener listener, int width, int height) {
-        imageLoader.downLoad(url, listener, width, height);
-    }
 
     @Override
     public void resume(Context context) {
@@ -327,22 +319,42 @@ public class ImageLoaderUtil implements IImageLoaderHelper, IImageDownLoaderHelp
     }
 
     @Override
-    public void onTrimMemory(int level) {
-        imageLoader.onTrimMemory(level);
+    public void onTrimMemory(Context context, int level) {
+        imageLoader.onTrimMemory(context, level);
     }
 
     @Override
-    public void onLowMemory() {
-        imageLoader.onLowMemory();
+    public void onLowMemory(Context context) {
+        imageLoader.onLowMemory(context);
     }
 
     @Override
-    public boolean isMemoryCache(String url, int imageType) {
-        return imageLoader.isMemoryCache(url, imageType);
+    public boolean isMemoryCache(Context context, String url, int imageType) {
+        return imageLoader.isMemoryCache(context, url, imageType);
     }
 
     @Override
-    public boolean isDiskCache(String url, int imageType) {
-        return imageLoader.isDiskCache(url, imageType);
+    public boolean isDiskCache(Context context, String url, int imageType) {
+        return imageLoader.isDiskCache(context, url, imageType);
+    }
+
+    @Override
+    public void downLoad(Context context, String url, DownLoadListener listener) {
+        imageLoader.downLoad(context, url, listener);
+    }
+
+    @Override
+    public void downLoad(Fragment fragment, String url, DownLoadListener listener) {
+        imageLoader.downLoad(fragment, url, listener);
+    }
+
+    @Override
+    public void downLoad(Context context, String url, DownLoadListener listener, int width, int height) {
+        imageLoader.downLoad(context, url, listener, width, height);
+    }
+
+    @Override
+    public void downLoad(Fragment fragment, String url, DownLoadListener listener, int width, int height) {
+        imageLoader.downLoad(fragment, url, listener, width, height);
     }
 }

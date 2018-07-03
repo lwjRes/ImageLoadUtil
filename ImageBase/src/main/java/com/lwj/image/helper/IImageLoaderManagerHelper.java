@@ -33,10 +33,10 @@ public interface IImageLoaderManagerHelper {
     void resume(Context context);
 
     // 不同的内存策略
-    void onTrimMemory(int level);
+    void onTrimMemory(Context context, int level);
 
     // 低内存情况下
-    void onLowMemory();
+    void onLowMemory(Context context);
 
     /**
      * 判断该 url 是否在内存缓存中
@@ -46,7 +46,7 @@ public interface IImageLoaderManagerHelper {
      *
      * @return true 在，false 不在
      */
-    boolean isMemoryCache(String url, int imageType);
+    boolean isMemoryCache(Context context, String url, int imageType);
 
     /**
      * 判断该 url 的图片是否在硬盘缓存中
@@ -56,7 +56,7 @@ public interface IImageLoaderManagerHelper {
      *
      * @return true 在，false 不在
      */
-    boolean isDiskCache(String url, int imageType);
+    boolean isDiskCache(Context context, String url, int imageType);
 
 
 }
