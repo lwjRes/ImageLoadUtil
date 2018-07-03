@@ -1,22 +1,21 @@
-package com.lwj.image.glide;
+package com.lwj.image.fresco;
 
 import android.content.Context;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.util.Util;
-import com.lwj.image.util.LogUtil;
+
 import com.lwj.image.download.ILoadImageUrlConverter.ImageType;
 
-/**
- * The type Glide manger.
- */
-abstract class GlideManger {
 
-    public GlideManger() {
-        throw new AbstractMethodError("GlideManger can't init!");
+/**
+ * The type Fresco manger.
+ */
+abstract class FrescoManger {
+
+    public FrescoManger() {
+        throw new AbstractMethodError("FrescoManger can't init!");
     }
 
-    public static final String TAG = "GlideManger";
+    public static final String TAG = "FrescoManger";
 
     static long getDiskCacheSize(Context context) {
 
@@ -27,28 +26,11 @@ abstract class GlideManger {
 
     static void clearMemoryCache(Context context) {
 
-        if (Util.isOnMainThread()) {
-            Glide.get(context).clearMemory();
-        } else {
-            LogUtil.e(TAG, "必须在主线程里清除内存缓存！");
-        }
     }
 
 
     static void clearDiskCache(Context context) {
-        if (Util.isOnBackgroundThread()) {
-            Glide.get(context).clearDiskCache();
-        } else {
-            new Thread() {
-                @Override
-                public void run() {
-                    super.run();
-                    Glide.get(context).clearDiskCache();
-                }
-            }.start();
 
-
-        }
 
     }
 
@@ -76,7 +58,7 @@ abstract class GlideManger {
      * @param context the context
      */
     static void pause(Context context) {
-        Glide.with(context).pauseRequests();
+
     }
 
 
@@ -86,19 +68,17 @@ abstract class GlideManger {
      * @param context the context
      */
     static void resume(Context context) {
-        if (Glide.with(context).isPaused()) {
-            Glide.with(context).resumeRequests();
-        }
+
     }
 
 
     static void onTrimMemory(Context context, int level) {
-        Glide.get(context).onTrimMemory(level);
+
     }
 
 
     static void onLowMemory(Context context) {
-        Glide.get(context).onLowMemory();
+
     }
 
 

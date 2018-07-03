@@ -19,8 +19,10 @@ import com.lwj.image.download.DownLoadListener;
  * ====================
  */
 
-class GlideDownLoader {
-
+abstract class GlideDownLoader {
+    public GlideDownLoader() {
+        throw new AbstractMethodError("GlideUrlConverter can't init!");
+    }
 
     static void downLoad(Context context, String url, DownLoadListener listener) {
         Glide.with(context).asBitmap().load(url).into(getTarget(listener));

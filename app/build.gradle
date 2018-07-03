@@ -31,7 +31,5 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile "com.android.support:appcompat-v7:$SLVersion"
     //    compile 'com.lwj.fork:AndroidUtils:1.0.0'
-    implementation project(':fresco')
-    implementation project(':glide')
-    implementation project(':fresco')
+
 }

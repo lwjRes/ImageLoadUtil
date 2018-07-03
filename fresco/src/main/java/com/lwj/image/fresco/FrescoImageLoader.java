@@ -1,9 +1,8 @@
-package com.lwj.image.glide;
+package com.lwj.image.fresco;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.widget.ImageView;
-
 
 import com.lwj.image.download.ILoadImageUrlConverter.ImageType;
 import com.lwj.image.util.ReSize;
@@ -13,10 +12,10 @@ import com.lwj.image.util.ReSize;
  * lwjfork@gmail.com
  */
 
-abstract class GlideImageLoader {
+abstract class FrescoImageLoader {
 
-    public GlideImageLoader() {
-        throw new AbstractMethodError("GlideImageLoader can't init!");
+    public FrescoImageLoader() {
+        throw new AbstractMethodError("FrescoImageLoader can't init!");
     }
 
     static void loadImageCircle(Context context, @ImageType int urlType, ImageView imageView, String url, int defaultImg, int errorImg, ReSize reSize, boolean isAnim, int iterations, int blurRadius) {

@@ -1,9 +1,8 @@
-package com.lwj.image.glide;
+package com.lwj.image.picasso;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.widget.ImageView;
-
 
 import com.lwj.image.download.ILoadImageUrlConverter.ImageType;
 import com.lwj.image.util.ReSize;
@@ -13,10 +12,10 @@ import com.lwj.image.util.ReSize;
  * lwjfork@gmail.com
  */
 
-abstract class GlideImageLoader {
+abstract class PicassoImageLoader {
 
-    public GlideImageLoader() {
-        throw new AbstractMethodError("GlideImageLoader can't init!");
+    public PicassoImageLoader() {
+        throw new AbstractMethodError("PicassoImageLoader can't init!");
     }
 
     static void loadImageCircle(Context context, @ImageType int urlType, ImageView imageView, String url, int defaultImg, int errorImg, ReSize reSize, boolean isAnim, int iterations, int blurRadius) {

@@ -182,11 +182,21 @@ public class ImageLoaderUtil implements IImageLoaderHelper, IImageDownLoaderHelp
             iterations = 0;
             blurRadius = 0;
         }
-        if (context != null) {
-            imageLoader.loadImage(context, type, imageView, url, defaultRes, errorRes, resize, isAnim, iterations, blurRadius);
-        } else if (fragment != null) {
-            imageLoader.loadImage(fragment, type, imageView, url, defaultRes, errorRes, resize, isAnim, iterations, blurRadius);
+        if (isBorder) {
+
+            if (context != null) {
+                imageLoader.loadRoundImageWithBorder(context, type, imageView, url, defaultRes, errorRes, topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius, borderWidth, borderColor, resize, isAnim, iterations, blurRadius);
+            } else if (fragment != null) {
+                imageLoader.loadRoundImageWithBorder(fragment, type, imageView, url, defaultRes, errorRes, topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius, borderWidth, borderColor, resize, isAnim, iterations, blurRadius);
+            }
+        } else {
+            if (context != null) {
+                imageLoader.loadImage(context, type, imageView, url, defaultRes, errorRes, resize, isAnim, iterations, blurRadius);
+            } else if (fragment != null) {
+                imageLoader.loadImage(fragment, type, imageView, url, defaultRes, errorRes, resize, isAnim, iterations, blurRadius);
+            }
         }
+
     }
 
 

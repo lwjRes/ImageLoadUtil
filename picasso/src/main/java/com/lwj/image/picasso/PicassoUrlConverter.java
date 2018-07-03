@@ -1,4 +1,4 @@
-package com.lwj.image.glide;
+package com.lwj.image.picasso;
 
 /**
  * Created:2018/7/2
@@ -8,10 +8,10 @@ package com.lwj.image.glide;
  * ====================
  */
 
- abstract class GlideUrlConverter {
+ abstract class PicassoUrlConverter {
 
-     GlideUrlConverter() {
-        throw new AbstractMethodError("GlideUrlConverter can't init!");
+     PicassoUrlConverter() {
+        throw new AbstractMethodError("PicassoUrlConverter can't init!");
     }
 
      static String convertNetUrl(String url) {

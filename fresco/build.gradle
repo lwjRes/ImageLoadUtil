@@ -1,8 +1,10 @@
 apply plugin: 'com.android.library'
+
 def SLVersion = rootProject.ext.supportLibVersion
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
+
 
 
     defaultConfig {
