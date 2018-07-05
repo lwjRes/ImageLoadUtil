@@ -1,6 +1,9 @@
 package com.lwj.image.transformation;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
+
+import com.lwj.image.util.BitmapUtil;
 
 /**
  * Created by lwj on 2018/7/3.
@@ -8,10 +11,21 @@ import android.graphics.Color;
  * 圆形转换器
  */
 
-public class CircleTransformation extends CircleBorderTransformation {
+public class CircleTransformation implements ITransformation {
 
+    private int borderColor = Color.TRANSPARENT;
+    private int borderWidth = 0;
 
     public CircleTransformation() {
-        super(0, Color.TRANSPARENT);
+    }
+
+    public CircleTransformation(int borderWidth, int borderColor) {
+        this.borderColor = borderColor;
+        this.borderWidth = borderWidth;
+    }
+
+    @Override
+    public Bitmap transformBitmap(Bitmap source) {
+        return BitmapUtil.cropCircleBitmap(source, borderColor, borderWidth);
     }
 }

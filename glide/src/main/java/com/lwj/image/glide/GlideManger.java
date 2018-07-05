@@ -64,11 +64,7 @@ public class GlideManger extends BaseImageLoaderManager {
     }
 
 
-    @Override
-    public void clearCache(Context context) {
-        clearMemoryCache(context);
-        clearDiskCache(context);
-    }
+
 
 
     /**

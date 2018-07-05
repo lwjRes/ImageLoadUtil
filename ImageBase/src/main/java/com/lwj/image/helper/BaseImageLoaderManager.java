@@ -14,4 +14,11 @@ public abstract class BaseImageLoaderManager implements IImageLoaderManagerHelpe
     }
 
     protected abstract BaseImageLoaderManager config(Context context);
+
+
+    @Override
+    public void clearCache(Context context) {
+        clearMemoryCache(context);
+        clearDiskCache(context);
+    }
 }
